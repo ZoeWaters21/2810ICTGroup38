@@ -21,23 +21,48 @@ class GameGUI(wx.Frame):
 
         Navigation = wx.BoxSizer(wx.VERTICAL)
         NavHead = wx.StaticText(pnl, label="Queries")
+        font = NavHead.GetFont()  # get the standard font
+        font.PointSize += 3  # increases the size
+        font = font.Bold()  # makes it bold
+        NavHead.SetFont(font)  # resets the font
         DateRangeButton = wx.Button(pnl, label = "Date Range")
         OffenceCodeButton = wx.Button(pnl, label = "Offence Code")
         RadarCamButton = wx.Button(pnl, label = "Radar/Camera")
-        MobilePhoneButton = wx.Button(pnl, label = "Date Range")
-        CustomQueryButton = wx.Button(pnl, label = "Date Range")
+        MobilePhoneButton = wx.Button(pnl, label = "Mobile Phones")
+        CustomQueryButton = wx.Button(pnl, label = "Custom Query")
 
-        Navigation.Add(NavHead,1,wx.ALIGN_LEFT|wx.LEFT, border = 50)
-        Navigation.Add(DateRangeButton,1,wx.ALIGN_LEFT|wx.LEFT, border = 50)
-        Navigation.Add(OffenceCodeButton, 1, wx.ALIGN_LEFT | wx.LEFT, border=50)
-        Navigation.Add(RadarCamButton, 1, wx.ALIGN_LEFT | wx.LEFT, border=50)
-        Navigation.Add(MobilePhoneButton, 1, wx.ALIGN_LEFT | wx.LEFT, border=50)
-        Navigation.Add(CustomQueryButton, 1, wx.ALIGN_LEFT | wx.LEFT, border=50)
-        rows.Add(Navigation, 1, wx.ALIGN_LEFT)
+        Navigation.Add(NavHead,1,wx.ALIGN_CENTER| wx.BOTTOM, border=5)
+        Navigation.Add(DateRangeButton,1,wx.ALIGN_LEFT| wx.BOTTOM, border=5)
+        Navigation.Add(OffenceCodeButton, 1, wx.ALIGN_LEFT | wx.BOTTOM, border=5)
+        Navigation.Add(RadarCamButton, 1, wx.ALIGN_LEFT | wx.BOTTOM, border=5)
+        Navigation.Add(MobilePhoneButton, 1, wx.ALIGN_LEFT | wx.BOTTOM, border=5)
+        Navigation.Add(CustomQueryButton, 1, wx.ALIGN_LEFT | wx.BOTTOM, border=20)
+        rows.Add(Navigation, 1, wx.ALIGN_LEFT| wx.LEFT, border=25)
+
+        self.Bind(wx.EVT_BUTTON,self.DataRange, DateRangeButton)
+        self.Bind(wx.EVT_BUTTON, self.OffenceCode, OffenceCodeButton)
+        self.Bind(wx.EVT_BUTTON, self.RaderCam, RadarCamButton)
+        self.Bind(wx.EVT_BUTTON, self.MobilePhone, MobilePhoneButton)
+        self.Bind(wx.EVT_BUTTON, self.CustomQuery, CustomQueryButton)
 
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
+
+    def DataRange(self, event):
+        wx.MessageBox("Data Range Query")
+
+    def OffenceCode(self, event):
+        wx.MessageBox("Offence Code Query")
+
+    def RaderCam(self, event):
+        wx.MessageBox("Radar/Camera Query")
+
+    def MobilePhone(self, event):
+        wx.MessageBox("Mobile Phone Query")
+
+    def CustomQuery(self, event):
+        wx.MessageBox("Custom Query")
 
 
 app = wx.App()
