@@ -2,7 +2,7 @@ import wx
 
 class DateRangeGUI(wx.Frame):
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(540, 280))
+        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
         self.initialise()
 
     def initialise(self):
@@ -14,7 +14,6 @@ class DateRangeGUI(wx.Frame):
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
         rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
-        self.Show(True)
 
         Navigation = wx.BoxSizer(wx.HORIZONTAL)
         DateRangeButton = wx.Button(pnl, label="Date Range")
@@ -28,7 +27,7 @@ class DateRangeGUI(wx.Frame):
         Navigation.Add(RadarCamButton, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=5)
         Navigation.Add(MobilePhoneButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
         Navigation.Add(CustomQueryButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
-        rows.Add(Navigation, 1, wx.ALIGN_LEFT | wx.LEFT, border=5)
+        rows.Add(Navigation, 1, wx.ALIGN_CENTRE | wx.LEFT, border=5)
 
         self.Bind(wx.EVT_BUTTON, self.DataRange, DateRangeButton)
         self.Bind(wx.EVT_BUTTON, self.OffenceCode, OffenceCodeButton)
@@ -37,7 +36,34 @@ class DateRangeGUI(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.CustomQuery, CustomQueryButton)
 
         dateRangeHead = wx.StaticText(pnl, label="Show All Cases Between 2 Dates")
-        rows.Add(dateRangeHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
+        font = dateRangeHead.GetFont()
+        font.PointSize +=5
+        font = font.Bold()
+        dateRangeHead.SetFont(font)
+        inputHead = wx.StaticText(pnl, label="Input Dates")
+        rows.Add(dateRangeHead, 1, wx.ALIGN_CENTER | wx.LEFT, border=5)
+        rows.Add(inputHead, 1, wx.ALIGN_CENTER | wx.LEFT, border=5)
+
+        dateSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.date1 = wx.TextCtrl(pnl)
+        dateToST = wx.StaticText(pnl,label = "TO")
+        self.date2 = wx.TextCtrl(pnl)
+
+        dateSizer.Add(self.date1, 1, wx.ALIGN_CENTER | wx.RIGHT)
+        dateSizer.Add(dateToST, 1,wx.ALIGN_CENTER| wx.LEFT, border= 50)
+        dateSizer.Add(self.date2, 1, wx.ALIGN_CENTER)
+        rows.Add(dateSizer, 2, wx.ALIGN_CENTER)
+
+        beforeAfterSizer = wx.BoxSizer(wx.HORIZONTAL)
+        beforeText = wx.StaticText(pnl, label="Leave Blank for all dates before to date")
+        afterText = wx.StaticText(pnl, label="Leave Blank for all dates before from date")
+        beforeAfterSizer.Add(beforeText,1,wx.ALIGN_CENTER)
+        beforeAfterSizer.Add(afterText, 1, wx.ALIGN_CENTER)
+
+        rows.Add(beforeAfterSizer,1,wx.ALIGN_CENTER)
+
+        DateRangeSearchButton = wx.Button(pnl, label="Search")
+        rows.Add(DateRangeSearchButton,1,wx.ALIGN_CENTER)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
@@ -75,7 +101,6 @@ class RadarCameraGUI(wx.Frame):
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
         rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
-        self.Show(True)
 
         Navigation = wx.BoxSizer(wx.HORIZONTAL)
         DateRangeButton = wx.Button(pnl, label="Date Range")
@@ -89,7 +114,7 @@ class RadarCameraGUI(wx.Frame):
         Navigation.Add(RadarCamButton, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=5)
         Navigation.Add(MobilePhoneButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
         Navigation.Add(CustomQueryButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
-        rows.Add(Navigation, 1, wx.ALIGN_LEFT | wx.LEFT, border=5)
+        rows.Add(Navigation, 1, wx.ALIGN_CENTRE | wx.LEFT, border=5)
 
         self.Bind(wx.EVT_BUTTON, self.DataRange, DateRangeButton)
         self.Bind(wx.EVT_BUTTON, self.OffenceCode, OffenceCodeButton)
@@ -136,7 +161,6 @@ class MobilePhoneGUI(wx.Frame):
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
         rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
-        self.Show(True)
 
         Navigation = wx.BoxSizer(wx.HORIZONTAL)
         DateRangeButton = wx.Button(pnl, label="Date Range")
@@ -150,7 +174,7 @@ class MobilePhoneGUI(wx.Frame):
         Navigation.Add(RadarCamButton, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=5)
         Navigation.Add(MobilePhoneButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
         Navigation.Add(CustomQueryButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
-        rows.Add(Navigation, 1, wx.ALIGN_LEFT | wx.LEFT, border=5)
+        rows.Add(Navigation, 1, wx.ALIGN_CENTRE | wx.LEFT, border=5)
 
         self.Bind(wx.EVT_BUTTON, self.DataRange, DateRangeButton)
         self.Bind(wx.EVT_BUTTON, self.OffenceCode, OffenceCodeButton)
@@ -197,7 +221,7 @@ class CustomQueryGUI(wx.Frame):
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
         rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
-        self.Show(True)
+
 
         Navigation = wx.BoxSizer(wx.HORIZONTAL)
         DateRangeButton = wx.Button(pnl, label="Date Range")
@@ -211,7 +235,7 @@ class CustomQueryGUI(wx.Frame):
         Navigation.Add(RadarCamButton, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=5)
         Navigation.Add(MobilePhoneButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
         Navigation.Add(CustomQueryButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
-        rows.Add(Navigation, 1, wx.ALIGN_LEFT | wx.LEFT, border=5)
+        rows.Add(Navigation, 1, wx.ALIGN_CENTRE | wx.LEFT, border=5)
 
         self.Bind(wx.EVT_BUTTON, self.DataRange, DateRangeButton)
         self.Bind(wx.EVT_BUTTON, self.OffenceCode, OffenceCodeButton)
@@ -258,7 +282,7 @@ class OffenceCodeGUI(wx.Frame):
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
         rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
-        self.Show(True)
+
 
         Navigation = wx.BoxSizer(wx.HORIZONTAL)
         DateRangeButton = wx.Button(pnl, label="Date Range")
@@ -272,7 +296,7 @@ class OffenceCodeGUI(wx.Frame):
         Navigation.Add(RadarCamButton, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=5)
         Navigation.Add(MobilePhoneButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
         Navigation.Add(CustomQueryButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
-        rows.Add(Navigation, 1, wx.ALIGN_LEFT | wx.LEFT, border=5)
+        rows.Add(Navigation, 1, wx.ALIGN_CENTRE | wx.LEFT, border=5)
 
         self.Bind(wx.EVT_BUTTON, self.DataRange, DateRangeButton)
         self.Bind(wx.EVT_BUTTON, self.OffenceCode, OffenceCodeButton)
@@ -334,7 +358,7 @@ class HomeGUI(wx.Frame):
         Navigation.Add(RadarCamButton, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=5)
         Navigation.Add(MobilePhoneButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
         Navigation.Add(CustomQueryButton, 1, wx.ALIGN_CENTRE | wx.BOTTOM, border=5)
-        rows.Add(Navigation, 1, wx.ALIGN_LEFT | wx.LEFT, border=5)
+        rows.Add(Navigation, 1, wx.ALIGN_CENTRE | wx.LEFT, border=5)
 
         self.Bind(wx.EVT_BUTTON,self.DataRange, DateRangeButton)
         self.Bind(wx.EVT_BUTTON, self.OffenceCode, OffenceCodeButton)
@@ -365,7 +389,6 @@ class HomeGUI(wx.Frame):
     def CustomQuery(self, event):
         self.Hide()
         frame = CustomQueryGUI(None, "Custom Query")
-
 
 
 app = wx.App()
