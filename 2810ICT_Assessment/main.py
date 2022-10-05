@@ -89,7 +89,7 @@ class DateRangeGUI(wx.Frame):
 
 class RadarCameraGUI(wx.Frame):
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(540, 280))
+        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
         self.initialise()
 
     def initialise(self):
@@ -122,8 +122,12 @@ class RadarCameraGUI(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.MobilePhone, MobilePhoneButton)
         self.Bind(wx.EVT_BUTTON, self.CustomQuery, CustomQueryButton)
 
-        dateRangeHead = wx.StaticText(pnl, label="Camera or Radar Based Offenses")
-        rows.Add(dateRangeHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
+        CameraRadarHead = wx.StaticText(pnl, label="Camera or Radar Based Offenses")
+        font = CameraRadarHead.GetFont()
+        font.PointSize += 5
+        font = font.Bold()
+        CameraRadarHead.SetFont(font)
+        rows.Add(CameraRadarHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
@@ -149,7 +153,7 @@ class RadarCameraGUI(wx.Frame):
 
 class MobilePhoneGUI(wx.Frame):
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(540, 280))
+        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
         self.initialise()
 
     def initialise(self):
@@ -182,8 +186,12 @@ class MobilePhoneGUI(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.MobilePhone, MobilePhoneButton)
         self.Bind(wx.EVT_BUTTON, self.CustomQuery, CustomQueryButton)
 
-        dateRangeHead = wx.StaticText(pnl, label="Trend of Mobile Usage of time")
-        rows.Add(dateRangeHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
+        MobilePhoneHead = wx.StaticText(pnl, label="Trend of Mobile Usage of time")
+        font = MobilePhoneHead.GetFont()
+        font.PointSize += 5
+        font = font.Bold()
+        MobilePhoneHead.SetFont(font)
+        rows.Add(MobilePhoneHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
@@ -209,7 +217,7 @@ class MobilePhoneGUI(wx.Frame):
 
 class CustomQueryGUI(wx.Frame):
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(540, 280))
+        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
         self.initialise()
 
     def initialise(self):
@@ -243,8 +251,12 @@ class CustomQueryGUI(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.MobilePhone, MobilePhoneButton)
         self.Bind(wx.EVT_BUTTON, self.CustomQuery, CustomQueryButton)
 
-        dateRangeHead = wx.StaticText(pnl, label="Custom Query")
-        rows.Add(dateRangeHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
+        CustomQueryHead = wx.StaticText(pnl, label="Custom Query")
+        font = CustomQueryHead.GetFont()
+        font.PointSize += 5
+        font = font.Bold()
+        CustomQueryHead.SetFont(font)
+        rows.Add(CustomQueryHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
@@ -270,7 +282,7 @@ class CustomQueryGUI(wx.Frame):
 
 class OffenceCodeGUI(wx.Frame):
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(540, 280))
+        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
         self.initialise()
 
     def initialise(self):
@@ -304,8 +316,35 @@ class OffenceCodeGUI(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.MobilePhone, MobilePhoneButton)
         self.Bind(wx.EVT_BUTTON, self.CustomQuery, CustomQueryButton)
 
-        dateRangeHead = wx.StaticText(pnl, label="Distribution of Cases in Each Offence Code")
-        rows.Add(dateRangeHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
+        OffenceCodeHead = wx.StaticText(pnl, label="Distribution of Cases in Each Offence Code")
+        font = OffenceCodeHead.GetFont()
+        font.PointSize += 5
+        font = font.Bold()
+        OffenceCodeHead.SetFont(font)
+        inputHead = wx.StaticText(pnl, label="Input Dates")
+        rows.Add(OffenceCodeHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
+        rows.Add(inputHead, 1, wx.ALIGN_CENTER | wx.LEFT, border=5)
+
+        dateSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.date1 = wx.TextCtrl(pnl)
+        dateToST = wx.StaticText(pnl, label="TO")
+        self.date2 = wx.TextCtrl(pnl)
+
+        dateSizer.Add(self.date1, 1, wx.ALIGN_CENTER | wx.RIGHT)
+        dateSizer.Add(dateToST, 1, wx.ALIGN_CENTER | wx.LEFT, border=50)
+        dateSizer.Add(self.date2, 1, wx.ALIGN_CENTER)
+        rows.Add(dateSizer, 2, wx.ALIGN_CENTER)
+
+        beforeAfterSizer = wx.BoxSizer(wx.HORIZONTAL)
+        beforeText = wx.StaticText(pnl, label="Leave Blank for all dates before to date")
+        afterText = wx.StaticText(pnl, label="Leave Blank for all dates before from date")
+        beforeAfterSizer.Add(beforeText, 1, wx.ALIGN_CENTER)
+        beforeAfterSizer.Add(afterText, 1, wx.ALIGN_CENTER)
+
+        rows.Add(beforeAfterSizer, 1, wx.ALIGN_CENTER)
+
+        OffenceCodeSearchButton = wx.Button(pnl, label="Search")
+        rows.Add(OffenceCodeSearchButton, 1, wx.ALIGN_CENTER)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
@@ -331,7 +370,7 @@ class OffenceCodeGUI(wx.Frame):
 
 class HomeGUI(wx.Frame):
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(540, 280))
+        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
         self.initialise()
 
     def initialise(self):
