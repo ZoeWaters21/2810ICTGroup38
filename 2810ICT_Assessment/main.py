@@ -127,7 +127,32 @@ class RadarCameraGUI(wx.Frame):
         font.PointSize += 5
         font = font.Bold()
         CameraRadarHead.SetFont(font)
+        inputHead = wx.StaticText(pnl, label="Input Dates")
         rows.Add(CameraRadarHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
+        rows.Add(inputHead, 1, wx.ALIGN_CENTER | wx.LEFT, border=5)
+
+        dateSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.date1 = wx.TextCtrl(pnl)
+        dateToST = wx.StaticText(pnl, label="TO")
+        self.date2 = wx.TextCtrl(pnl)
+
+        dateSizer.Add(self.date1, 1, wx.ALIGN_CENTER | wx.RIGHT)
+        dateSizer.Add(dateToST, 1, wx.ALIGN_CENTER | wx.LEFT, border=50)
+        dateSizer.Add(self.date2, 1, wx.ALIGN_CENTER)
+        rows.Add(dateSizer, 2, wx.ALIGN_CENTER)
+
+        beforeAfterSizer = wx.BoxSizer(wx.HORIZONTAL)
+        beforeText = wx.StaticText(pnl, label="Leave Blank for all dates before to date")
+        afterText = wx.StaticText(pnl, label="Leave Blank for all dates before from date")
+        beforeAfterSizer.Add(beforeText, 1, wx.ALIGN_CENTER)
+        beforeAfterSizer.Add(afterText, 1, wx.ALIGN_CENTER)
+
+        rows.Add(beforeAfterSizer, 1, wx.ALIGN_CENTER)
+
+        CameraRadarSearchButton = wx.Button(pnl, label="Search")
+        rows.Add(CameraRadarSearchButton, 1, wx.ALIGN_CENTER)
+
+
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
@@ -193,6 +218,9 @@ class MobilePhoneGUI(wx.Frame):
         MobilePhoneHead.SetFont(font)
         rows.Add(MobilePhoneHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
 
+        MobilePhoneSearchButton = wx.Button(pnl, label="Search")
+        rows.Add(MobilePhoneSearchButton, 1, wx.ALIGN_CENTER)
+
         pnl.SetSizerAndFit(rows)
         self.Show(True)
 
@@ -251,12 +279,42 @@ class CustomQueryGUI(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.MobilePhone, MobilePhoneButton)
         self.Bind(wx.EVT_BUTTON, self.CustomQuery, CustomQueryButton)
 
-        CustomQueryHead = wx.StaticText(pnl, label="Custom Query")
+        CustomQueryHead = wx.StaticText(pnl, label="Custom Query ")
         font = CustomQueryHead.GetFont()
         font.PointSize += 5
         font = font.Bold()
         CustomQueryHead.SetFont(font)
-        rows.Add(CustomQueryHead,1, wx.ALIGN_CENTER | wx.LEFT, border=25)
+        inputHead = wx.StaticText(pnl, label="Input Dates")
+        rows.Add(CustomQueryHead,1, wx.ALIGN_CENTER | wx.LEFT, border=5)
+        rows.Add(inputHead, 1, wx.ALIGN_CENTER | wx.LEFT, border=5)
+
+        keywordSizer = wx.BoxSizer(wx.HORIZONTAL)
+        keywordLabel = wx.StaticText(pnl,label = "Keyword: ")
+        keywordTextCtrl = wx.TextCtrl(pnl)
+        keywordSizer.Add(keywordLabel,1,wx.ALIGN_CENTER)
+        keywordSizer.Add(keywordTextCtrl,1,wx.ALIGN_CENTER)
+        rows.Add(keywordSizer,1,wx.ALIGN_CENTER)
+
+        dateSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.date1 = wx.TextCtrl(pnl)
+        dateToST = wx.StaticText(pnl, label="TO")
+        self.date2 = wx.TextCtrl(pnl)
+
+        dateSizer.Add(self.date1, 1, wx.ALIGN_CENTER | wx.RIGHT)
+        dateSizer.Add(dateToST, 1, wx.ALIGN_CENTER | wx.LEFT, border=50)
+        dateSizer.Add(self.date2, 1, wx.ALIGN_CENTER)
+        rows.Add(dateSizer, 2, wx.ALIGN_CENTER)
+
+        beforeAfterSizer = wx.BoxSizer(wx.HORIZONTAL)
+        beforeText = wx.StaticText(pnl, label="Leave Blank for all dates before to date")
+        afterText = wx.StaticText(pnl, label="Leave Blank for all dates before from date")
+        beforeAfterSizer.Add(beforeText, 1, wx.ALIGN_CENTER)
+        beforeAfterSizer.Add(afterText, 1, wx.ALIGN_CENTER)
+
+        rows.Add(beforeAfterSizer, 1, wx.ALIGN_CENTER)
+
+        CustomQuerySearchButton = wx.Button(pnl, label="Search")
+        rows.Add(CustomQuerySearchButton, 1, wx.ALIGN_CENTER)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
