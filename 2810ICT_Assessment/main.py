@@ -101,18 +101,29 @@ class DateRangeResultsGUI(wx.Frame):
     def initialise(self):
         pnl = wx.Panel(self)
         rows = wx.BoxSizer(wx.VERTICAL)
+        headingSizer = wx.BoxSizer(wx.HORIZONTAL)
+        ReturnButton = wx.Button(pnl,label = "Return")
         head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
         font = head.GetFont()  # get the standard font
         font.PointSize += 10  # increases the size
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
-        rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+        headingSizer.Add(ReturnButton,1,wx.ALIGN_LEFT)
+        headingSizer.Add(head,1,wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+        rows.Add(headingSizer,1,wx.ALIGN_CENTER)
+        self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
+
 
         text = wx.StaticText(pnl, label = "Data Range Results Go Here")
         rows.Add(text,1,wx.ALIGN_CENTER)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
+
+    def ReturnHome(self, event):
+        self.Hide()
+        frame = HomeGUI(None, "New South Wales Traffic Penalty Analysis")
+
 
 
 class RadarCameraGUI(wx.Frame):
@@ -216,18 +227,27 @@ class RadarCameraResultsGUI(wx.Frame):
     def initialise(self):
         pnl = wx.Panel(self)
         rows = wx.BoxSizer(wx.VERTICAL)
+        headingSizer = wx.BoxSizer(wx.HORIZONTAL)
+        ReturnButton = wx.Button(pnl, label="Return")
         head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
         font = head.GetFont()  # get the standard font
         font.PointSize += 10  # increases the size
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
-        rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+        headingSizer.Add(ReturnButton, 1, wx.ALIGN_LEFT)
+        headingSizer.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+        rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
+        self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
 
         text = wx.StaticText(pnl, label = "Radar/Camera Results Go Here")
         rows.Add(text,1,wx.ALIGN_CENTER)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
+
+    def ReturnHome(self, event):
+        self.Hide()
+        frame = HomeGUI(None, "New South Wales Traffic Penalty Analysis")
 
 
 class MobilePhoneGUI(wx.Frame):
@@ -310,12 +330,17 @@ class MobilePhoneResultsGUI(wx.Frame):
     def initialise(self):
         pnl = wx.Panel(self)
         rows = wx.BoxSizer(wx.VERTICAL)
+        headingSizer = wx.BoxSizer(wx.HORIZONTAL)
+        ReturnButton = wx.Button(pnl, label="Return")
         head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
         font = head.GetFont()  # get the standard font
         font.PointSize += 10  # increases the size
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
-        rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+        headingSizer.Add(ReturnButton, 1, wx.ALIGN_LEFT)
+        headingSizer.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+        rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
+        self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
 
         text = wx.StaticText(pnl, label = "Mobile Phone Results Go Here")
         rows.Add(text,1,wx.ALIGN_CENTER)
@@ -323,6 +348,9 @@ class MobilePhoneResultsGUI(wx.Frame):
         pnl.SetSizerAndFit(rows)
         self.Show(True)
 
+    def ReturnHome(self, event):
+        self.Hide()
+        frame = HomeGUI(None, "New South Wales Traffic Penalty Analysis")
 
 class CustomQueryGUI(wx.Frame):
     def __init__(self, parent, title):
@@ -432,18 +460,27 @@ class CustomQueryResultsGUI(wx.Frame):
     def initialise(self):
         pnl = wx.Panel(self)
         rows = wx.BoxSizer(wx.VERTICAL)
+        headingSizer = wx.BoxSizer(wx.HORIZONTAL)
+        ReturnButton = wx.Button(pnl,label = "Return")
         head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
         font = head.GetFont()  # get the standard font
         font.PointSize += 10  # increases the size
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
-        rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+        headingSizer.Add(ReturnButton,1,wx.ALIGN_LEFT)
+        headingSizer.Add(head,1,wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+        rows.Add(headingSizer,1,wx.ALIGN_CENTER)
+        self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
 
         text = wx.StaticText(pnl, label = "Custom Query Results Go Here")
         rows.Add(text,1,wx.ALIGN_CENTER)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
+
+    def ReturnHome(self, event):
+        self.Hide()
+        frame = HomeGUI(None, "New South Wales Traffic Penalty Analysis")
 
 
 class OffenceCodeGUI(wx.Frame):
@@ -547,12 +584,18 @@ class OffenceCodeResultsGUI(wx.Frame):
     def initialise(self):
         pnl = wx.Panel(self)
         rows = wx.BoxSizer(wx.VERTICAL)
+        headingSizer = wx.BoxSizer(wx.HORIZONTAL)
+        ReturnButton = wx.Button(pnl,label = "Return")
         head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
         font = head.GetFont()  # get the standard font
         font.PointSize += 10  # increases the size
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
-        rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+        headingSizer.Add(ReturnButton,1,wx.ALIGN_LEFT)
+        headingSizer.Add(head,1,wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+        rows.Add(headingSizer,1,wx.ALIGN_CENTER)
+        self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
+
 
         text = wx.StaticText(pnl, label = "Offence Code Results Go Here")
         rows.Add(text,1,wx.ALIGN_CENTER)
@@ -560,7 +603,11 @@ class OffenceCodeResultsGUI(wx.Frame):
         pnl.SetSizerAndFit(rows)
         self.Show(True)
 
+    def ReturnHome(self, event):
+        self.Hide()
+        frame = HomeGUI(None, "New South Wales Traffic Penalty Analysis")
 
+                                                                        
 class HomeGUI(wx.Frame):
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, title=title, size=(540, 320))
