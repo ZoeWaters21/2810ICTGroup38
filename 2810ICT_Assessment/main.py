@@ -64,9 +64,15 @@ class DateRangeGUI(wx.Frame):
 
         DateRangeSearchButton = wx.Button(pnl, label="Search")
         rows.Add(DateRangeSearchButton,1,wx.ALIGN_CENTER)
+        self.Bind(wx.EVT_BUTTON, self.DataRangeResults, DateRangeSearchButton)
+
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
+
+    def DataRangeResults(self, event):
+        self.Hide()
+        frame = DateRangeResultsGUI(None, "Data Range Query Results")
 
     def DataRange(self, event):
         wx.MessageBox("You Are Already Here")
@@ -86,6 +92,28 @@ class DateRangeGUI(wx.Frame):
     def CustomQuery(self, event):
         self.Hide()
         frame = CustomQueryGUI(None, "Custom Query")
+
+class DateRangeResultsGUI(wx.Frame):
+    def __init__(self, parent, title):
+        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
+        self.initialise()
+
+    def initialise(self):
+        pnl = wx.Panel(self)
+        rows = wx.BoxSizer(wx.VERTICAL)
+        head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
+        font = head.GetFont()  # get the standard font
+        font.PointSize += 10  # increases the size
+        font = font.Bold()  # makes it bold
+        head.SetFont(font)  # resets the font
+        rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+
+        text = wx.StaticText(pnl, label = "Data Range Results Go Here")
+        rows.Add(text,1,wx.ALIGN_CENTER)
+
+        pnl.SetSizerAndFit(rows)
+        self.Show(True)
+
 
 class RadarCameraGUI(wx.Frame):
     def __init__(self, parent, title):
@@ -151,11 +179,15 @@ class RadarCameraGUI(wx.Frame):
 
         CameraRadarSearchButton = wx.Button(pnl, label="Search")
         rows.Add(CameraRadarSearchButton, 1, wx.ALIGN_CENTER)
-
+        self.Bind(wx.EVT_BUTTON, self.RadarCameraResultsGUI, CameraRadarSearchButton)
 
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
+
+    def RadarCameraResultsGUI(self, event):
+        self.Hide()
+        frame = RadarCameraResultsGUI(None, "Radar/Camera Query Results")
 
     def DataRange(self, event):
         self.Hide()
@@ -175,6 +207,28 @@ class RadarCameraGUI(wx.Frame):
     def CustomQuery(self, event):
         self.Hide()
         frame = CustomQueryGUI(None, "Custom Query")
+
+class RadarCameraResultsGUI(wx.Frame):
+    def __init__(self, parent, title):
+        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
+        self.initialise()
+
+    def initialise(self):
+        pnl = wx.Panel(self)
+        rows = wx.BoxSizer(wx.VERTICAL)
+        head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
+        font = head.GetFont()  # get the standard font
+        font.PointSize += 10  # increases the size
+        font = font.Bold()  # makes it bold
+        head.SetFont(font)  # resets the font
+        rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+
+        text = wx.StaticText(pnl, label = "Radar/Camera Results Go Here")
+        rows.Add(text,1,wx.ALIGN_CENTER)
+
+        pnl.SetSizerAndFit(rows)
+        self.Show(True)
+
 
 class MobilePhoneGUI(wx.Frame):
     def __init__(self, parent, title):
@@ -220,9 +274,14 @@ class MobilePhoneGUI(wx.Frame):
 
         MobilePhoneSearchButton = wx.Button(pnl, label="Search")
         rows.Add(MobilePhoneSearchButton, 1, wx.ALIGN_CENTER)
+        self.Bind(wx.EVT_BUTTON, self.MobilePhoneResults, MobilePhoneSearchButton)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
+
+    def MobilePhoneResults(self, event):
+        self.Hide()
+        frame = MobilePhoneResultsGUI(None, "Mobile Phone Query Results")
 
     def DataRange(self, event):
         self.Hide()
@@ -242,6 +301,28 @@ class MobilePhoneGUI(wx.Frame):
     def CustomQuery(self, event):
         self.Hide()
         frame = CustomQueryGUI(None, "Custom Query")
+
+class MobilePhoneResultsGUI(wx.Frame):
+    def __init__(self, parent, title):
+        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
+        self.initialise()
+
+    def initialise(self):
+        pnl = wx.Panel(self)
+        rows = wx.BoxSizer(wx.VERTICAL)
+        head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
+        font = head.GetFont()  # get the standard font
+        font.PointSize += 10  # increases the size
+        font = font.Bold()  # makes it bold
+        head.SetFont(font)  # resets the font
+        rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+
+        text = wx.StaticText(pnl, label = "Mobile Phone Results Go Here")
+        rows.Add(text,1,wx.ALIGN_CENTER)
+
+        pnl.SetSizerAndFit(rows)
+        self.Show(True)
+
 
 class CustomQueryGUI(wx.Frame):
     def __init__(self, parent, title):
@@ -315,9 +396,14 @@ class CustomQueryGUI(wx.Frame):
 
         CustomQuerySearchButton = wx.Button(pnl, label="Search")
         rows.Add(CustomQuerySearchButton, 1, wx.ALIGN_CENTER)
+        self.Bind(wx.EVT_BUTTON, self.CustomQueryResults, CustomQuerySearchButton)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
+
+    def CustomQueryResults(self, event):
+        self.Hide()
+        frame = CustomQueryResultsGUI(None, "Custom Query Results")
 
     def DataRange(self, event):
         self.Hide()
@@ -337,6 +423,28 @@ class CustomQueryGUI(wx.Frame):
 
     def CustomQuery(self, event):
         wx.MessageBox("You Are Already Here")
+
+class CustomQueryResultsGUI(wx.Frame):
+    def __init__(self, parent, title):
+        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
+        self.initialise()
+
+    def initialise(self):
+        pnl = wx.Panel(self)
+        rows = wx.BoxSizer(wx.VERTICAL)
+        head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
+        font = head.GetFont()  # get the standard font
+        font.PointSize += 10  # increases the size
+        font = font.Bold()  # makes it bold
+        head.SetFont(font)  # resets the font
+        rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+
+        text = wx.StaticText(pnl, label = "Custom Query Results Go Here")
+        rows.Add(text,1,wx.ALIGN_CENTER)
+
+        pnl.SetSizerAndFit(rows)
+        self.Show(True)
+
 
 class OffenceCodeGUI(wx.Frame):
     def __init__(self, parent, title):
@@ -403,9 +511,14 @@ class OffenceCodeGUI(wx.Frame):
 
         OffenceCodeSearchButton = wx.Button(pnl, label="Search")
         rows.Add(OffenceCodeSearchButton, 1, wx.ALIGN_CENTER)
+        self.Bind(wx.EVT_BUTTON, self.OffenceCodeResults, OffenceCodeSearchButton)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
+
+    def OffenceCodeResults(self, event):
+        self.Hide()
+        frame = OffenceCodeResultsGUI(None, "Offence Code Query Results")
 
     def DataRange(self, event):
         self.Hide()
@@ -425,6 +538,28 @@ class OffenceCodeGUI(wx.Frame):
     def CustomQuery(self, event):
         self.Hide()
         frame = CustomQueryGUI(None, "Custom Query")
+
+class OffenceCodeResultsGUI(wx.Frame):
+    def __init__(self, parent, title):
+        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
+        self.initialise()
+
+    def initialise(self):
+        pnl = wx.Panel(self)
+        rows = wx.BoxSizer(wx.VERTICAL)
+        head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
+        font = head.GetFont()  # get the standard font
+        font.PointSize += 10  # increases the size
+        font = font.Bold()  # makes it bold
+        head.SetFont(font)  # resets the font
+        rows.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
+
+        text = wx.StaticText(pnl, label = "Offence Code Results Go Here")
+        rows.Add(text,1,wx.ALIGN_CENTER)
+
+        pnl.SetSizerAndFit(rows)
+        self.Show(True)
+
 
 class HomeGUI(wx.Frame):
     def __init__(self, parent, title):
