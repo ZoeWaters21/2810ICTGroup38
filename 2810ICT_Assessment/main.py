@@ -3,6 +3,9 @@ import pandas as pd
 
 searchDateBefore = ""
 searchDateAfter = ""
+keyword = ""
+keyword1 =""
+keyword2 = ""
 
 
 class DateRangeGUI(wx.Frame):
@@ -80,6 +83,7 @@ class DateRangeGUI(wx.Frame):
         self.Hide()
         frame = DateRangeResultsGUI(None, "Data Range Query Results", searchDateBefore, searchDateAfter)
 
+
     def DataRange(self, event):
         wx.MessageBox("You Are Already Here")
 
@@ -103,7 +107,7 @@ class DateRangeGUI(wx.Frame):
 class DateRangeResultsGUI(wx.Frame):
     def __init__(self, parent, title, searchDateBefore, searchDateAfter):
         wx.Frame.__init__(self, parent, title=title, size=(810, 480))
-        self.initialise(searchDateBefore, searchDateAfter)
+        self.initialise(searchDateBefore,searchDateAfter)
 
     def initialise(self, searchDateBefore, searchDateAfter):
         self.pnl = wx.Panel(self)
@@ -124,9 +128,6 @@ class DateRangeResultsGUI(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
         self.Bind(wx.EVT_BUTTON, self.NextPage, NextPageButton)
 
-        text = wx.StaticText(self.pnl, label="First 10 Results: ")
-        self.rows.Add(text, 1, wx.ALIGN_CENTER)
-
         if searchDateBefore == "":
             searchDateBefore = "01/01/1990"
 
@@ -138,12 +139,15 @@ class DateRangeResultsGUI(wx.Frame):
         tableRows = len(self.tableList)
         print(tableRows)
 
+        text = wx.StaticText(self.pnl, label="Results: ")
+        self.rows.Add(text, 1, wx.ALIGN_CENTER)
+
         self.table = wx.BoxSizer(wx.VERTICAL)
         count = 0
         self.index = 0
 
         while count < 10:
-            dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
+            dataLabel =wx.StaticText(self.pnl,label = str(self.tableList[self.index]))
             font = dataLabel.GetFont()
             font.PointSize += 3
             dataLabel.SetFont(font)
@@ -164,6 +168,7 @@ class DateRangeResultsGUI(wx.Frame):
         count = 0
 
         while count < 10:
+
             dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
             font = dataLabel.GetFont()
             font.PointSize += 3
@@ -171,6 +176,7 @@ class DateRangeResultsGUI(wx.Frame):
             self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
             count = count + 1
             self.index = self.index + 1
+
 
     def dateRange(self, beginDate, endDate):
         df = pd.read_csv('penalty_data_set_2.csv', low_memory=False, parse_dates=['OFFENCE_MONTH'], dayfirst=True)
@@ -249,8 +255,12 @@ class RadarCameraGUI(wx.Frame):
         self.Show(True)
 
     def RadarCameraResultsGUI(self, event):
+        searchDateBefore = self.date1.GetValue()
+        searchDateAfter = self.date2.GetValue()
+        keyword1 = "Radar"
+        keyword2 = "Camera"
         self.Hide()
-        frame = RadarCameraResultsGUI(None, "Radar/Camera Query Results")
+        frame = RadarCameraResultsGUI(None, "Radar/Camera Query Results",searchDateBefore, searchDateAfter,keyword1, keyword2)
 
     def DataRange(self, event):
         self.Hide()
@@ -273,34 +283,86 @@ class RadarCameraGUI(wx.Frame):
 
 
 class RadarCameraResultsGUI(wx.Frame):
-    def __init__(self, parent, title):
+    def __init__(self, parent, title,searchDateBefore, searchDateAfter,keyword1, keyword2):
         wx.Frame.__init__(self, parent, title=title, size=(540, 320))
-        self.initialise()
+        self.initialise(searchDateBefore, searchDateAfter,keyword1, keyword2)
 
-    def initialise(self):
-        pnl = wx.Panel(self)
-        rows = wx.BoxSizer(wx.VERTICAL)
+    def initialise(self,searchDateBefore, searchDateAfter,keyword1, keyword2):
+        self.pnl = wx.Panel(self)
+        self.rows = wx.BoxSizer(wx.VERTICAL)
         headingSizer = wx.BoxSizer(wx.HORIZONTAL)
-        ReturnButton = wx.Button(pnl, label="Return")
-        head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
+        ReturnButton = wx.Button(self.pnl, label="Return")
+        NextPageButton = wx.Button(self.pnl, label="Next Page")
+        head = wx.StaticText(self.pnl, label="New South Wales Traffic Penalty Analysis")
         font = head.GetFont()  # get the standard font
         font.PointSize += 10  # increases the size
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
         headingSizer.Add(ReturnButton, 1, wx.ALIGN_LEFT)
         headingSizer.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
-        rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
+        headingSizer.Add(NextPageButton, 1, wx.ALIGN_LEFT)
+        self.rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
+        self.Bind(wx.EVT_BUTTON, self.NextPage, NextPageButton)
 
-        text = wx.StaticText(pnl, label="Radar/Camera Results Go Here")
-        rows.Add(text, 1, wx.ALIGN_CENTER)
+        if searchDateBefore == "":
+            searchDateBefore = "01/01/1990"
 
-        pnl.SetSizerAndFit(rows)
+        if searchDateAfter == "":
+            searchDateAfter = "12/12/2022"
+
+        tableData = self.customSearch(searchDateBefore, searchDateAfter, keyword1,keyword2)
+        self.tableList = tableData.values.tolist()
+        tableRows = len(self.tableList)
+        print(tableRows)
+
+        text = wx.StaticText(self.pnl, label="Results: ")
+        self.rows.Add(text, 1, wx.ALIGN_CENTER)
+
+        self.table = wx.BoxSizer(wx.VERTICAL)
+        count = 0
+        self.index = 0
+
+        while count < 10:
+            dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
+            font = dataLabel.GetFont()
+            font.PointSize += 3
+            dataLabel.SetFont(font)
+            self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
+            count = count + 1
+            self.index = self.index + 1
+        self.rows.Add(self.table, 1, wx.ALIGN_CENTER)
+
+        self.pnl.SetSizerAndFit(self.rows)
         self.Show(True)
 
     def ReturnHome(self, event):
         self.Hide()
         frame = HomeGUI(None, "New South Wales Traffic Penalty Analysis")
+
+    def NextPage(self, event):
+        self.table.Clear(True)
+        count = 0
+
+        while count < 10:
+            dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
+            font = dataLabel.GetFont()
+            font.PointSize += 3
+            dataLabel.SetFont(font)
+            self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
+            count = count + 1
+            self.index = self.index + 1
+
+    def customSearch(self, beginDate, endDate, keyword1, keyword2):
+        df = pd.read_csv('penalty_data_set_2.csv', low_memory=False, parse_dates=['OFFENCE_MONTH'], dayfirst=True)
+        df['OFFENCE_MONTH'] = pd.to_datetime(df['OFFENCE_MONTH'])
+        df2 = df[(df['OFFENCE_MONTH'] > beginDate) & (df['OFFENCE_MONTH'] < endDate)]
+
+        df3 = df2[df2["OFFENCE_DESC"].str.lower().str.contains(keyword1)]
+        df4 = df2[df2["OFFENCE_DESC"].str.lower().str.contains(keyword2)]
+
+        print(type(df3))
+        return df3
 
 
 class MobilePhoneGUI(wx.Frame):
@@ -453,9 +515,9 @@ class CustomQueryGUI(wx.Frame):
 
         keywordSizer = wx.BoxSizer(wx.HORIZONTAL)
         keywordLabel = wx.StaticText(pnl, label="Keyword: ")
-        keywordTextCtrl = wx.TextCtrl(pnl)
+        self.keywordTextCtrl = wx.TextCtrl(pnl)
         keywordSizer.Add(keywordLabel, 1, wx.ALIGN_CENTER)
-        keywordSizer.Add(keywordTextCtrl, 1, wx.ALIGN_CENTER)
+        keywordSizer.Add(self.keywordTextCtrl, 1, wx.ALIGN_CENTER)
         rows.Add(keywordSizer, 1, wx.ALIGN_CENTER)
 
         dateSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -484,8 +546,11 @@ class CustomQueryGUI(wx.Frame):
         self.Show(True)
 
     def CustomQueryResults(self, event):
+        searchDateBefore = self.date1.GetValue()
+        searchDateAfter = self.date2.GetValue()
+        keyword = self.keywordTextCtrl.GetValue()
         self.Hide()
-        frame = CustomQueryResultsGUI(None, "Custom Query Results")
+        frame = CustomQueryResultsGUI(None, "Custom Query Results", searchDateBefore, searchDateAfter,keyword)
 
     def DataRange(self, event):
         self.Hide()
@@ -508,34 +573,85 @@ class CustomQueryGUI(wx.Frame):
 
 
 class CustomQueryResultsGUI(wx.Frame):
-    def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
-        self.initialise()
+    def __init__(self, parent, title, searchDateBefore, searchDateAfter,keyword):
+        wx.Frame.__init__(self, parent, title=title, size=(650, 320))
+        self.initialise(searchDateBefore, searchDateAfter,keyword)
 
-    def initialise(self):
-        pnl = wx.Panel(self)
-        rows = wx.BoxSizer(wx.VERTICAL)
+    def initialise(self,searchDateBefore, searchDateAfter,keyword):
+        self.pnl = wx.Panel(self)
+        self.rows = wx.BoxSizer(wx.VERTICAL)
         headingSizer = wx.BoxSizer(wx.HORIZONTAL)
-        ReturnButton = wx.Button(pnl, label="Return")
-        head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
+        ReturnButton = wx.Button(self.pnl, label="Return")
+        NextPageButton = wx.Button(self.pnl, label="Next Page")
+        head = wx.StaticText(self.pnl, label="New South Wales Traffic Penalty Analysis")
         font = head.GetFont()  # get the standard font
         font.PointSize += 10  # increases the size
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
         headingSizer.Add(ReturnButton, 1, wx.ALIGN_LEFT)
         headingSizer.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
-        rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
+        headingSizer.Add(NextPageButton, 1, wx.ALIGN_LEFT)
+        self.rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
+        self.Bind(wx.EVT_BUTTON, self.NextPage, NextPageButton)
 
-        text = wx.StaticText(pnl, label="Custom Query Results Go Here")
-        rows.Add(text, 1, wx.ALIGN_CENTER)
 
-        pnl.SetSizerAndFit(rows)
+
+        if searchDateBefore == "":
+            searchDateBefore = "01/01/1990"
+
+        if searchDateAfter == "":
+            searchDateAfter = "12/12/2022"
+
+        tableData = self.customSearch(searchDateBefore,searchDateAfter,keyword)
+        self.tableList = tableData.values.tolist()
+        tableRows = len(self.tableList)
+        print(tableRows)
+
+        text = wx.StaticText(self.pnl, label="Results: " )
+        self.rows.Add(text, 1, wx.ALIGN_CENTER)
+
+        self.table = wx.BoxSizer(wx.VERTICAL)
+        count = 0
+        self.index = 0
+
+        while count < 10:
+            dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
+            font = dataLabel.GetFont()
+            font.PointSize += 3
+            dataLabel.SetFont(font)
+            self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
+            count = count + 1
+            self.index = self.index + 1
+        self.rows.Add(self.table, 1, wx.ALIGN_CENTER)
+
+        self.pnl.SetSizerAndFit(self.rows)
         self.Show(True)
 
     def ReturnHome(self, event):
         self.Hide()
         frame = HomeGUI(None, "New South Wales Traffic Penalty Analysis")
+
+    def NextPage(self, event):
+        self.table.Clear(True)
+        count = 0
+
+        while count < 10:
+            dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
+            font = dataLabel.GetFont()
+            font.PointSize += 3
+            dataLabel.SetFont(font)
+            self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
+            count = count + 1
+            self.index = self.index + 1
+
+    def customSearch(self, beginDate, endDate, searchWord):
+        df = pd.read_csv('penalty_data_set_2.csv', low_memory=False, parse_dates=['OFFENCE_MONTH'], dayfirst=True)
+        df['OFFENCE_MONTH'] = pd.to_datetime(df['OFFENCE_MONTH'])
+        df2 = df[(df['OFFENCE_MONTH'] > beginDate) & (df['OFFENCE_MONTH'] < endDate)]
+
+        df3 = df2[df2["OFFENCE_DESC"].str.lower().str.contains(searchWord)]
+        return df3
 
 
 class OffenceCodeGUI(wx.Frame):
