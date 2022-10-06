@@ -137,7 +137,7 @@ class DateRangeResultsGUI(wx.Frame):
         tableData = self.dateRange(searchDateBefore, searchDateAfter)
         self.tableList = tableData.values.tolist()
         tableRows = len(self.tableList)
-        print(tableRows)
+
 
         text = wx.StaticText(self.pnl, label="Results: ")
         self.rows.Add(text, 1, wx.ALIGN_CENTER)
@@ -257,8 +257,8 @@ class RadarCameraGUI(wx.Frame):
     def RadarCameraResultsGUI(self, event):
         searchDateBefore = self.date1.GetValue()
         searchDateAfter = self.date2.GetValue()
-        keyword1 = "Radar"
-        keyword2 = "Camera"
+        keyword1 = "radar"
+        keyword2 = "camera"
         self.Hide()
         frame = RadarCameraResultsGUI(None, "Radar/Camera Query Results",searchDateBefore, searchDateAfter,keyword1, keyword2)
 
@@ -314,7 +314,7 @@ class RadarCameraResultsGUI(wx.Frame):
         tableData = self.customSearch(searchDateBefore, searchDateAfter, keyword1,keyword2)
         self.tableList = tableData.values.tolist()
         tableRows = len(self.tableList)
-        print(tableRows)
+
 
         text = wx.StaticText(self.pnl, label="Results: ")
         self.rows.Add(text, 1, wx.ALIGN_CENTER)
@@ -361,8 +361,9 @@ class RadarCameraResultsGUI(wx.Frame):
         df3 = df2[df2["OFFENCE_DESC"].str.lower().str.contains(keyword1)]
         df4 = df2[df2["OFFENCE_DESC"].str.lower().str.contains(keyword2)]
 
-        print(type(df3))
-        return df3
+        dFrames = [df4,df3]
+        df5 = pd.concat(dFrames)
+        return df5
 
 
 class MobilePhoneGUI(wx.Frame):
@@ -606,7 +607,7 @@ class CustomQueryResultsGUI(wx.Frame):
         tableData = self.customSearch(searchDateBefore,searchDateAfter,keyword)
         self.tableList = tableData.values.tolist()
         tableRows = len(self.tableList)
-        print(tableRows)
+
 
         text = wx.StaticText(self.pnl, label="Results: " )
         self.rows.Add(text, 1, wx.ALIGN_CENTER)
