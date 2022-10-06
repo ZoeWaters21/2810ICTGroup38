@@ -7,4 +7,4 @@ def dateRange(beginDate, endDate):
     dateRangeFrame = pd.loc[dateRangeFrame]
     return dateRangeFrame
 
-print('01/01/12', '01/01/2013')
+print(dateRange('01/01/2012', '01/01/2013'))
