@@ -24,6 +24,8 @@ def offenceCodeDistribution():
     for list in offences:
         runtime += 1
         print(runtime)
+        if runtime > 10:
+            break
         for elements in offences:
             if elements[0] in count:
                 count[elements[0]] += elements[1]
