@@ -1,5 +1,7 @@
 import wx
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
 searchDateBefore = ""
 searchDateAfter = ""
@@ -725,8 +727,10 @@ class OffenceCodeGUI(wx.Frame):
         self.Show(True)
 
     def OffenceCodeResults(self, event):
+        searchDateBefore = self.date1.GetValue()
+        searchDateAfter = self.date2.GetValue()
         self.Hide()
-        frame = OffenceCodeResultsGUI(None, "Offence Code Query Results")
+        frame = OffenceCodeResultsGUI(None, "Offence Code Query Results", searchDateBefore, searchDateAfter)
 
     def DataRange(self, event):
         self.Hide()
@@ -749,34 +753,85 @@ class OffenceCodeGUI(wx.Frame):
 
 
 class OffenceCodeResultsGUI(wx.Frame):
-    def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
-        self.initialise()
+    def __init__(self, parent, title,searchDateBefore, searchDateAfter):
+        wx.Frame.__init__(self, parent, title=title, size=(650, 320))
+        self.initialise(searchDateBefore, searchDateAfter)
 
-    def initialise(self):
-        pnl = wx.Panel(self)
-        rows = wx.BoxSizer(wx.VERTICAL)
+    def initialise(self,searchDateBefore, searchDateAfter):
+        self.pnl = wx.Panel(self)
+        self.rows = wx.BoxSizer(wx.VERTICAL)
         headingSizer = wx.BoxSizer(wx.HORIZONTAL)
-        ReturnButton = wx.Button(pnl, label="Return")
-        head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
+        ReturnButton = wx.Button(self.pnl, label="Return")
+        NextPageButton = wx.Button(self.pnl, label="Next Page")
+        head = wx.StaticText(self.pnl, label="New South Wales Traffic Penalty Analysis")
         font = head.GetFont()  # get the standard font
         font.PointSize += 10  # increases the size
         font = font.Bold()  # makes it bold
         head.SetFont(font)  # resets the font
         headingSizer.Add(ReturnButton, 1, wx.ALIGN_LEFT)
         headingSizer.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
-        rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
+        headingSizer.Add(NextPageButton, 1, wx.ALIGN_LEFT)
+        self.rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
+        self.Bind(wx.EVT_BUTTON, self.NextPage, NextPageButton)
 
-        text = wx.StaticText(pnl, label="Offence Code Results Go Here")
-        rows.Add(text, 1, wx.ALIGN_CENTER)
+        if searchDateBefore == "":
+            searchDateBefore = "01/01/1990"
 
-        pnl.SetSizerAndFit(rows)
+        if searchDateAfter == "":
+            searchDateAfter = "12/12/2022"
+
+        tableData = self.dateRangeOffenceCode(searchDateBefore, searchDateAfter)
+        self.tableList = tableData.values.tolist()
+        tableRows = len(self.tableList)
+
+        text = wx.StaticText(self.pnl, label="Results: ")
+        self.rows.Add(text, 1, wx.ALIGN_CENTER)
+
+        tableDataDict = tableData.to_dict()
+        dataKeys = list(tableDataDict.keys())
+        dataValues = list(tableDataDict.values())
+        print(tableDataDict)
+        print(dataKeys)
+        print(dataValues)
+
+        fig = plt.figure(figsize=(10, 5))
+        plt.bar(dataKeys, dataValues, color="maroon", width=1000)
+
+        plt.xlabel("Offence Code")
+        plt.ylabel("No. of Offence Code occurrences")
+        plt.title("Distribution of offence codes")
+        plt.show()
+
+
+
+        self.pnl.SetSizerAndFit(self.rows)
         self.Show(True)
 
     def ReturnHome(self, event):
         self.Hide()
         frame = HomeGUI(None, "New South Wales Traffic Penalty Analysis")
+
+    def dateRangeOffenceCode(self,beginDate, endDate):
+        df = pd.read_csv('penalty_data_set_2.csv', low_memory=False, parse_dates=['OFFENCE_MONTH'], dayfirst=True)
+        df['OFFENCE_MONTH'] = pd.to_datetime(df['OFFENCE_MONTH'])
+        df2 = df[(df['OFFENCE_MONTH'] > beginDate) & (df['OFFENCE_MONTH'] < endDate)]
+        df3 = df2["OFFENCE_CODE"].value_counts()
+        offenceCode = df3.head(19)
+        return offenceCode
+
+    def NextPage(self, event):
+        self.table.Clear(True)
+        count = 0
+
+        while count < 10:
+            dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
+            font = dataLabel.GetFont()
+            font.PointSize += 3
+            dataLabel.SetFont(font)
+            self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
+            count = count + 1
+            self.index = self.index + 1
 
 
 class HomeGUI(wx.Frame):
