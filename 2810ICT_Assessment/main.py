@@ -796,7 +796,7 @@ class OffenceCodeResultsGUI(wx.Frame):
         print(dataValues)
 
         fig = plt.figure(figsize=(10, 5))
-        plt.bar(dataKeys, dataValues, color="maroon", width=1000)
+        plt.bar(dataKeys, dataValues, color="maroon", width=300)
 
         plt.xlabel("Offence Code")
         plt.ylabel("No. of Offence Code occurrences")
