@@ -762,7 +762,6 @@ class OffenceCodeResultsGUI(wx.Frame):
         self.rows = wx.BoxSizer(wx.VERTICAL)
         headingSizer = wx.BoxSizer(wx.HORIZONTAL)
         ReturnButton = wx.Button(self.pnl, label="Return")
-        NextPageButton = wx.Button(self.pnl, label="Next Page")
         head = wx.StaticText(self.pnl, label="New South Wales Traffic Penalty Analysis")
         font = head.GetFont()  # get the standard font
         font.PointSize += 10  # increases the size
@@ -770,10 +769,8 @@ class OffenceCodeResultsGUI(wx.Frame):
         head.SetFont(font)  # resets the font
         headingSizer.Add(ReturnButton, 1, wx.ALIGN_LEFT)
         headingSizer.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
-        headingSizer.Add(NextPageButton, 1, wx.ALIGN_LEFT)
         self.rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
-        self.Bind(wx.EVT_BUTTON, self.NextPage, NextPageButton)
 
         if searchDateBefore == "":
             searchDateBefore = "01/01/1990"
@@ -817,18 +814,6 @@ class OffenceCodeResultsGUI(wx.Frame):
         offenceCode = df3.head(19)
         return offenceCode
 
-    def NextPage(self, event):
-        self.table.Clear(True)
-        count = 0
-
-        while count < 10:
-            dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
-            font = dataLabel.GetFont()
-            font.PointSize += 3
-            dataLabel.SetFont(font)
-            self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
-            count = count + 1
-            self.index = self.index + 1
 
 
 class HomeGUI(wx.Frame):
