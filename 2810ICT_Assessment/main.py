@@ -791,9 +791,6 @@ class OffenceCodeResultsGUI(wx.Frame):
         tableDataDict = tableData.to_dict()
         dataKeys = list(tableDataDict.keys())
         dataValues = list(tableDataDict.values())
-        print(tableDataDict)
-        print(dataKeys)
-        print(dataValues)
 
         fig = plt.figure(figsize=(10, 5))
         plt.bar(dataKeys, dataValues, color="maroon", width=300)
