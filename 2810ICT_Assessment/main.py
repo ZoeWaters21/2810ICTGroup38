@@ -463,10 +463,6 @@ class MobilePhoneGUI(wx.Frame):
             self.analysisList3.append(value[2][1])
             self.analysisYears.append(key)
 
-        print(self.analysisList1)
-        print(self.analysisList2)
-        print(self.analysisList3)
-        print(self.analysisYears)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
