@@ -87,8 +87,7 @@ class DateRangeGUI(wx.Frame):
 
         if searchDateBefore == "":
             searchDateBefore = "01/01/1990"
-
-        if searchDateAfter == "":
+        elif searchDateAfter == "":
             searchDateAfter = "12/12/2022"
 
         try:
@@ -97,11 +96,15 @@ class DateRangeGUI(wx.Frame):
         except ValueError:
             wx.MessageBox("Please Input a valid Start or End Date")
 
-        searchDateBefore = pd.to_datetime(searchDateBefore)
-        searchDateAfter = pd.to_datetime(searchDateAfter)
+        if searchDateAfter < searchDateBefore:
+            wx.MessageBox("Please make sure Start date is less than Finish Date")
+        else:
+            searchDateBefore = pd.to_datetime(searchDateBefore)
+            searchDateAfter = pd.to_datetime(searchDateAfter)
+            self.Hide()
+            frame = DateRangeResultsGUI(None, "Data Range Query Results", searchDateBefore, searchDateAfter)
 
-        self.Hide()
-        frame = DateRangeResultsGUI(None, "Data Range Query Results", searchDateBefore, searchDateAfter)
+
 
 
 
@@ -287,11 +290,13 @@ class RadarCameraGUI(wx.Frame):
         except ValueError:
             wx.MessageBox("Please Input a valid Start or End Date")
 
-        searchDateBefore = pd.to_datetime(searchDateBefore)
-        searchDateAfter = pd.to_datetime(searchDateAfter)
-
-        self.Hide()
-        frame = RadarCameraResultsGUI(None, "Radar/Camera Query Results",searchDateBefore, searchDateAfter,keyword1, keyword2)
+        if searchDateAfter < searchDateBefore:
+            wx.MessageBox("Please make sure Start date is less than Finish Date")
+        else:
+            searchDateBefore = pd.to_datetime(searchDateBefore)
+            searchDateAfter = pd.to_datetime(searchDateAfter)
+            self.Hide()
+            frame = RadarCameraResultsGUI(None, "Radar/Camera Query Results",searchDateBefore, searchDateAfter,keyword1, keyword2)
 
     def DataRange(self, event):
         self.Hide()
@@ -547,7 +552,6 @@ class MobilePhoneGUI(wx.Frame):
         frame = CustomQueryGUI(None, "Custom Query")
 
 
-
 class CustomQueryGUI(wx.Frame):
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, title=title, size=(540, 320))
@@ -642,11 +646,13 @@ class CustomQueryGUI(wx.Frame):
         except ValueError:
             wx.MessageBox("Please Input a valid Start or End Date")
 
-        searchDateBefore = pd.to_datetime(searchDateBefore)
-        searchDateAfter = pd.to_datetime(searchDateAfter)
-
-        self.Hide()
-        frame = CustomQueryResultsGUI(None, "Custom Query Results", searchDateBefore, searchDateAfter,keyword)
+        if searchDateAfter < searchDateBefore:
+            wx.MessageBox("Please make sure Start date is less than Finish Date")
+        else:
+            searchDateBefore = pd.to_datetime(searchDateBefore)
+            searchDateAfter = pd.to_datetime(searchDateAfter)
+            self.Hide()
+            frame = CustomQueryResultsGUI(None, "Custom Query Results", searchDateBefore, searchDateAfter,keyword)
 
     def DataRange(self, event):
         self.Hide()
@@ -828,11 +834,13 @@ class OffenceCodeGUI(wx.Frame):
         except ValueError:
             wx.MessageBox("Please Input a valid Start or End Date")
 
-        searchDateBefore = pd.to_datetime(searchDateBefore)
-        searchDateAfter = pd.to_datetime(searchDateAfter)
-
-        self.Hide()
-        frame = OffenceCodeResultsGUI(None, "Offence Code Query Results", searchDateBefore, searchDateAfter)
+        if searchDateAfter < searchDateBefore:
+            wx.MessageBox("Please make sure Start date is less than Finish Date")
+        else:
+            searchDateBefore = pd.to_datetime(searchDateBefore)
+            searchDateAfter = pd.to_datetime(searchDateAfter)
+            self.Hide()
+            frame = OffenceCodeResultsGUI(None, "Offence Code Query Results", searchDateBefore, searchDateAfter)
 
     def DataRange(self, event):
         self.Hide()
