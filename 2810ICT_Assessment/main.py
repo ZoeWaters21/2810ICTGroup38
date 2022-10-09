@@ -1,7 +1,7 @@
 import wx
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
+from collections import OrderedDict
 
 searchDateBefore = ""
 searchDateAfter = ""
@@ -410,16 +410,105 @@ class MobilePhoneGUI(wx.Frame):
         MobilePhoneHead.SetFont(font)
         rows.Add(MobilePhoneHead, 1, wx.ALIGN_CENTER | wx.LEFT, border=25)
 
-        MobilePhoneSearchButton = wx.Button(pnl, label="Search")
-        rows.Add(MobilePhoneSearchButton, 1, wx.ALIGN_CENTER)
-        self.Bind(wx.EVT_BUTTON, self.MobilePhoneResults, MobilePhoneSearchButton)
+
+
+        analysis1 = wx.Button(pnl, label="Analysis of Offence code 83379")
+        analysis2 = wx.Button(pnl, label="Analysis of Offence code 65013")
+        analysis3 = wx.Button(pnl, label="Analysis of Offence code 83378")
+        rows.Add(analysis1, 1, wx.ALIGN_CENTER)
+        rows.Add(analysis2, 1, wx.ALIGN_CENTER)
+        rows.Add(analysis3, 1, wx.ALIGN_CENTER)
+        self.Bind(wx.EVT_BUTTON, self.displayAnalysis1, analysis1)
+        self.Bind(wx.EVT_BUTTON, self.displayAnalysis2, analysis2)
+        self.Bind(wx.EVT_BUTTON, self.displayAnalysis3, analysis3)
+
+
+        self.analysisList1 = []
+        self.analysisList2 = []
+        self.analysisList3 = []
+        self.analysisYears = []
+
+        df = pd.read_csv('penalty_data_set_2.csv', low_memory=False, parse_dates=['OFFENCE_MONTH'], dayfirst=True)
+        distributionDic = OrderedDict()
+        df2 = df[df["OFFENCE_DESC"].str.lower().str.contains("mobile phone")]
+
+        df2['OFFENCE_MONTH'] = pd.to_datetime(df2['OFFENCE_MONTH']).dt.year
+        df3 = df2["OFFENCE_CODE"].value_counts()
+        years = df2['OFFENCE_MONTH'].unique()
+        years.sort()
+
+        topCases = df3.index.tolist()
+        caseList = []
+        i = 0
+        for year in years:
+            ydf = df2[df2['OFFENCE_MONTH'].astype('str').str.contains(str(year))]
+            for case in topCases:
+                cdf = ydf[ydf["OFFENCE_CODE"].astype('str').str.contains(str(case))]
+                ldf = cdf["OFFENCE_CODE"].value_counts()
+                if ldf.empty:
+                    tldf = 0
+                else:
+                    tldf = ldf.tolist()
+                    tldf = tldf[0]
+                caseList.append([case, tldf])
+
+
+            distributionDic[year] = caseList
+            caseList = []
+            i += 1
+
+        for key, value in distributionDic.items():
+            self.analysisList1.append(value[0][1])
+            self.analysisList2.append(value[1][1])
+            self.analysisList3.append(value[2][1])
+            self.analysisYears.append(key)
+
+        print(self.analysisList1)
+        print(self.analysisList2)
+        print(self.analysisList3)
+        print(self.analysisYears)
 
         pnl.SetSizerAndFit(rows)
         self.Show(True)
 
-    def MobilePhoneResults(self, event):
-        self.Hide()
-        frame = MobilePhoneResultsGUI(None, "Mobile Phone Query Results")
+
+    def displayAnalysis1(self, event):
+
+        dataKeys = self.analysisYears
+        dataValues = self.analysisList1
+
+        fig = plt.figure(figsize=(10, 5))
+        plt.bar(dataKeys, dataValues, color="maroon", width=0.2)
+
+        plt.xlabel("Year")
+        plt.ylabel("No. of Offence Code Occurrences")
+        plt.title("Distribution of Mobile Phone Offence Codes")
+        plt.show()
+
+
+    def displayAnalysis2(self, event):
+        dataKeys = self.analysisYears
+        dataValues = self.analysisList2
+
+        fig = plt.figure(figsize=(10, 5))
+        plt.bar(dataKeys, dataValues, color="maroon", width=0.2)
+
+        plt.xlabel("Year")
+        plt.ylabel("No. of Offence Code Occurrences")
+        plt.title("Distribution of Mobile Phone Offence Codes")
+        plt.show()
+
+    def displayAnalysis3(self, event):
+        dataKeys = self.analysisYears
+        dataValues = self.analysisList3
+
+        fig = plt.figure(figsize=(10, 5))
+        plt.bar(dataKeys, dataValues, color="maroon", width=0.2)
+
+        plt.xlabel("Year")
+        plt.ylabel("No. of Offence Code Occurrences")
+        plt.title("Distribution of Mobile Phone Offence Codes")
+        plt.show()
 
     def DataRange(self, event):
         self.Hide()
@@ -440,36 +529,6 @@ class MobilePhoneGUI(wx.Frame):
         self.Hide()
         frame = CustomQueryGUI(None, "Custom Query")
 
-
-class MobilePhoneResultsGUI(wx.Frame):
-    def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(540, 320))
-        self.initialise()
-
-    def initialise(self):
-        pnl = wx.Panel(self)
-        rows = wx.BoxSizer(wx.VERTICAL)
-        headingSizer = wx.BoxSizer(wx.HORIZONTAL)
-        ReturnButton = wx.Button(pnl, label="Return")
-        head = wx.StaticText(pnl, label="New South Wales Traffic Penalty Analysis")
-        font = head.GetFont()  # get the standard font
-        font.PointSize += 10  # increases the size
-        font = font.Bold()  # makes it bold
-        head.SetFont(font)  # resets the font
-        headingSizer.Add(ReturnButton, 1, wx.ALIGN_LEFT)
-        headingSizer.Add(head, 1, wx.ALIGN_CENTER | wx.BOTTOM, border=2)
-        rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
-        self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
-
-        text = wx.StaticText(pnl, label="Mobile Phone Results Go Here")
-        rows.Add(text, 1, wx.ALIGN_CENTER)
-
-        pnl.SetSizerAndFit(rows)
-        self.Show(True)
-
-    def ReturnHome(self, event):
-        self.Hide()
-        frame = HomeGUI(None, "New South Wales Traffic Penalty Analysis")
 
 
 class CustomQueryGUI(wx.Frame):

@@ -1,9 +1,10 @@
 import pandas as pd
+from collections import OrderedDict
 
 df = pd.read_csv('penalty_data_set_2.csv', low_memory=False, parse_dates=['OFFENCE_MONTH'], dayfirst=True)
 
 def mobiletrendSearch():
-    distributionDic = {}
+    distributionDic = OrderedDict()
     df2 = df[df["OFFENCE_DESC"].str.lower().str.contains("mobile phone")]
 
     df2['OFFENCE_MONTH'] = pd.to_datetime(df2['OFFENCE_MONTH']).dt.year
@@ -13,6 +14,7 @@ def mobiletrendSearch():
     years.sort()
 
     topCases = df3.index.tolist()
+    print(topCases, type(topCases))
     caseList = []
     i = 0
     for year in years:
@@ -26,8 +28,17 @@ def mobiletrendSearch():
                 tldf = ldf.tolist()
                 tldf = tldf[0]
             caseList.append([case, tldf])
-        distributionDic[year] = caseList[i*9: + (9+(9*i))]
+
+        print(caseList)
+        distributionDic[year] = caseList
+        caseList = []
         i += 1
 
-    return distributionDic
+        analysisList1 = []
+        analysisList2 = []
+        analysisList3 = []
+
+    for key, value in distributionDic.items():
+        print(key, '->', value[0][0], value[1][0], value[2][0])
+
 print(mobiletrendSearch())
