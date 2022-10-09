@@ -2,6 +2,7 @@ import wx
 import pandas as pd
 import matplotlib.pyplot as plt
 from collections import OrderedDict
+from datetime import datetime
 
 searchDateBefore = ""
 searchDateAfter = ""
@@ -9,6 +10,7 @@ keyword = ""
 keyword1 =""
 keyword2 = ""
 
+dateFormat = "%d/%m/%Y"
 
 class DateRangeGUI(wx.Frame):
     def __init__(self, parent, title):
@@ -82,8 +84,25 @@ class DateRangeGUI(wx.Frame):
     def DataRangeResults(self, event):
         searchDateBefore = self.date1.GetValue()
         searchDateAfter = self.date2.GetValue()
+
+        if searchDateBefore == "":
+            searchDateBefore = "01/01/1990"
+
+        if searchDateAfter == "":
+            searchDateAfter = "12/12/2022"
+
+        try:
+            datetime.strptime(searchDateBefore, dateFormat)
+            datetime.strptime(searchDateAfter, dateFormat)
+        except ValueError:
+            wx.MessageBox("Please Input a valid Start or End Date")
+
+        searchDateBefore = pd.to_datetime(searchDateBefore)
+        searchDateAfter = pd.to_datetime(searchDateAfter)
+
         self.Hide()
         frame = DateRangeResultsGUI(None, "Data Range Query Results", searchDateBefore, searchDateAfter)
+
 
 
     def DataRange(self, event):
@@ -129,12 +148,6 @@ class DateRangeResultsGUI(wx.Frame):
 
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
         self.Bind(wx.EVT_BUTTON, self.NextPage, NextPageButton)
-
-        if searchDateBefore == "":
-            searchDateBefore = "01/01/1990"
-
-        if searchDateAfter == "":
-            searchDateAfter = "12/12/2022"
 
         tableData = self.dateRange(searchDateBefore, searchDateAfter)
         self.tableList = tableData.values.tolist()
@@ -261,6 +274,22 @@ class RadarCameraGUI(wx.Frame):
         searchDateAfter = self.date2.GetValue()
         keyword1 = "radar"
         keyword2 = "camera"
+
+        if searchDateBefore == "":
+            searchDateBefore = "01/01/1990"
+
+        if searchDateAfter == "":
+            searchDateAfter = "12/12/2022"
+
+        try:
+            datetime.strptime(searchDateBefore, dateFormat)
+            datetime.strptime(searchDateAfter, dateFormat)
+        except ValueError:
+            wx.MessageBox("Please Input a valid Start or End Date")
+
+        searchDateBefore = pd.to_datetime(searchDateBefore)
+        searchDateAfter = pd.to_datetime(searchDateAfter)
+
         self.Hide()
         frame = RadarCameraResultsGUI(None, "Radar/Camera Query Results",searchDateBefore, searchDateAfter,keyword1, keyword2)
 
@@ -306,12 +335,6 @@ class RadarCameraResultsGUI(wx.Frame):
         self.rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
         self.Bind(wx.EVT_BUTTON, self.NextPage, NextPageButton)
-
-        if searchDateBefore == "":
-            searchDateBefore = "01/01/1990"
-
-        if searchDateAfter == "":
-            searchDateAfter = "12/12/2022"
 
         tableData = self.customSearch(searchDateBefore, searchDateAfter, keyword1,keyword2)
         self.tableList = tableData.values.tolist()
@@ -598,6 +621,7 @@ class CustomQueryGUI(wx.Frame):
         rows.Add(CustomQuerySearchButton, 1, wx.ALIGN_CENTER)
         self.Bind(wx.EVT_BUTTON, self.CustomQueryResults, CustomQuerySearchButton)
 
+
         pnl.SetSizerAndFit(rows)
         self.Show(True)
 
@@ -605,6 +629,22 @@ class CustomQueryGUI(wx.Frame):
         searchDateBefore = self.date1.GetValue()
         searchDateAfter = self.date2.GetValue()
         keyword = self.keywordTextCtrl.GetValue()
+
+        if searchDateBefore == "":
+            searchDateBefore = "01/01/1990"
+
+        if searchDateAfter == "":
+            searchDateAfter = "12/12/2022"
+
+        try:
+            datetime.strptime(searchDateBefore, dateFormat)
+            datetime.strptime(searchDateAfter, dateFormat)
+        except ValueError:
+            wx.MessageBox("Please Input a valid Start or End Date")
+
+        searchDateBefore = pd.to_datetime(searchDateBefore)
+        searchDateAfter = pd.to_datetime(searchDateAfter)
+
         self.Hide()
         frame = CustomQueryResultsGUI(None, "Custom Query Results", searchDateBefore, searchDateAfter,keyword)
 
@@ -651,13 +691,6 @@ class CustomQueryResultsGUI(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
         self.Bind(wx.EVT_BUTTON, self.NextPage, NextPageButton)
 
-
-
-        if searchDateBefore == "":
-            searchDateBefore = "01/01/1990"
-
-        if searchDateAfter == "":
-            searchDateAfter = "12/12/2022"
 
         tableData = self.customSearch(searchDateBefore,searchDateAfter,keyword)
         self.tableList = tableData.values.tolist()
@@ -782,6 +815,22 @@ class OffenceCodeGUI(wx.Frame):
     def OffenceCodeResults(self, event):
         searchDateBefore = self.date1.GetValue()
         searchDateAfter = self.date2.GetValue()
+
+        if searchDateBefore == "":
+            searchDateBefore = "01/01/1990"
+
+        if searchDateAfter == "":
+            searchDateAfter = "12/12/2022"
+
+        try:
+            datetime.strptime(searchDateBefore, dateFormat)
+            datetime.strptime(searchDateAfter, dateFormat)
+        except ValueError:
+            wx.MessageBox("Please Input a valid Start or End Date")
+
+        searchDateBefore = pd.to_datetime(searchDateBefore)
+        searchDateAfter = pd.to_datetime(searchDateAfter)
+
         self.Hide()
         frame = OffenceCodeResultsGUI(None, "Offence Code Query Results", searchDateBefore, searchDateAfter)
 
@@ -825,12 +874,6 @@ class OffenceCodeResultsGUI(wx.Frame):
         self.rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
 
-        if searchDateBefore == "":
-            searchDateBefore = "01/01/1990"
-
-        if searchDateAfter == "":
-            searchDateAfter = "12/12/2022"
-
         tableData = self.dateRangeOffenceCode(searchDateBefore, searchDateAfter)
         self.tableList = tableData.values.tolist()
         tableRows = len(self.tableList)
@@ -841,9 +884,13 @@ class OffenceCodeResultsGUI(wx.Frame):
         tableDataDict = tableData.to_dict()
         dataKeys = list(tableDataDict.keys())
         dataValues = list(tableDataDict.values())
+        dataKeysString = []
+        for keys in dataKeys:
+            keyString = str(keys)
+            dataKeysString.append(keyString)
 
-
-        plt.bar(dataKeys, dataValues, color="maroon", width=300)
+        fig = plt.figure(figsize=(15, 5))
+        plt.bar(dataKeysString, dataValues, color="maroon", width=0.35)
 
         plt.xlabel("Offence Code")
         plt.ylabel("No. of Offence Code occurrences")
