@@ -152,27 +152,31 @@ class DateRangeResultsGUI(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
         self.Bind(wx.EVT_BUTTON, self.NextPage, NextPageButton)
 
-        tableData = self.dateRange(searchDateBefore, searchDateAfter)
-        self.tableList = tableData.values.tolist()
-        tableRows = len(self.tableList)
+        try:
+            tableData = self.dateRange(searchDateBefore, searchDateAfter)
+            self.tableList = tableData.values.tolist()
+            tableRows = len(self.tableList)
 
+            text = wx.StaticText(self.pnl, label="Results: ")
+            self.rows.Add(text, 1, wx.ALIGN_CENTER)
 
-        text = wx.StaticText(self.pnl, label="Results: ")
-        self.rows.Add(text, 1, wx.ALIGN_CENTER)
+            self.table = wx.BoxSizer(wx.VERTICAL)
+            count = 0
+            self.index = 0
 
-        self.table = wx.BoxSizer(wx.VERTICAL)
-        count = 0
-        self.index = 0
+            while count < 10:
+                dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
+                font = dataLabel.GetFont()
+                font.PointSize += 3
+                dataLabel.SetFont(font)
+                self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
+                count = count + 1
+                self.index = self.index + 1
+            self.rows.Add(self.table, 1, wx.ALIGN_CENTER)
 
-        while count < 10:
-            dataLabel =wx.StaticText(self.pnl,label = str(self.tableList[self.index]))
-            font = dataLabel.GetFont()
-            font.PointSize += 3
-            dataLabel.SetFont(font)
-            self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
-            count = count + 1
-            self.index = self.index + 1
-        self.rows.Add(self.table, 1, wx.ALIGN_CENTER)
+        except IndexError:
+            wx.MessageBox("No Results")
+
 
         self.pnl.SetSizerAndFit(self.rows)
         self.Show(True)
@@ -341,27 +345,29 @@ class RadarCameraResultsGUI(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
         self.Bind(wx.EVT_BUTTON, self.NextPage, NextPageButton)
 
-        tableData = self.customSearch(searchDateBefore, searchDateAfter, keyword1,keyword2)
-        self.tableList = tableData.values.tolist()
-        tableRows = len(self.tableList)
+        try:
+            tableData = self.customSearch(searchDateBefore, searchDateAfter, keyword1, keyword2)
+            self.tableList = tableData.values.tolist()
+            tableRows = len(self.tableList)
 
+            text = wx.StaticText(self.pnl, label="Results: ")
+            self.rows.Add(text, 1, wx.ALIGN_CENTER)
 
-        text = wx.StaticText(self.pnl, label="Results: ")
-        self.rows.Add(text, 1, wx.ALIGN_CENTER)
+            self.table = wx.BoxSizer(wx.VERTICAL)
+            count = 0
+            self.index = 0
 
-        self.table = wx.BoxSizer(wx.VERTICAL)
-        count = 0
-        self.index = 0
-
-        while count < 10:
-            dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
-            font = dataLabel.GetFont()
-            font.PointSize += 3
-            dataLabel.SetFont(font)
-            self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
-            count = count + 1
-            self.index = self.index + 1
-        self.rows.Add(self.table, 1, wx.ALIGN_CENTER)
+            while count < 10:
+                dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
+                font = dataLabel.GetFont()
+                font.PointSize += 3
+                dataLabel.SetFont(font)
+                self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
+                count = count + 1
+                self.index = self.index + 1
+            self.rows.Add(self.table, 1, wx.ALIGN_CENTER)
+        except IndexError:
+            wx.MessageBox("No Results")
 
         self.pnl.SetSizerAndFit(self.rows)
         self.Show(True)
@@ -625,7 +631,6 @@ class CustomQueryGUI(wx.Frame):
         rows.Add(CustomQuerySearchButton, 1, wx.ALIGN_CENTER)
         self.Bind(wx.EVT_BUTTON, self.CustomQueryResults, CustomQuerySearchButton)
 
-
         pnl.SetSizerAndFit(rows)
         self.Show(True)
 
@@ -698,27 +703,29 @@ class CustomQueryResultsGUI(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.NextPage, NextPageButton)
 
 
-        tableData = self.customSearch(searchDateBefore,searchDateAfter,keyword)
-        self.tableList = tableData.values.tolist()
-        tableRows = len(self.tableList)
+        try:
+            tableData = self.customSearch(searchDateBefore, searchDateAfter, keyword)
+            self.tableList = tableData.values.tolist()
+            tableRows = len(self.tableList)
 
+            text = wx.StaticText(self.pnl, label="Results: ")
+            self.rows.Add(text, 1, wx.ALIGN_CENTER)
 
-        text = wx.StaticText(self.pnl, label="Results: " )
-        self.rows.Add(text, 1, wx.ALIGN_CENTER)
+            self.table = wx.BoxSizer(wx.VERTICAL)
+            count = 0
+            self.index = 0
 
-        self.table = wx.BoxSizer(wx.VERTICAL)
-        count = 0
-        self.index = 0
-
-        while count < 10:
-            dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
-            font = dataLabel.GetFont()
-            font.PointSize += 3
-            dataLabel.SetFont(font)
-            self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
-            count = count + 1
-            self.index = self.index + 1
-        self.rows.Add(self.table, 1, wx.ALIGN_CENTER)
+            while count < 10:
+                dataLabel = wx.StaticText(self.pnl, label=str(self.tableList[self.index]))
+                font = dataLabel.GetFont()
+                font.PointSize += 3
+                dataLabel.SetFont(font)
+                self.table.Add(dataLabel, 1, wx.ALIGN_CENTRE)
+                count = count + 1
+                self.index = self.index + 1
+            self.rows.Add(self.table, 1, wx.ALIGN_CENTER)
+        except IndexError:
+            wx.MessageBox("No Results")
 
         self.pnl.SetSizerAndFit(self.rows)
         self.Show(True)
@@ -882,30 +889,31 @@ class OffenceCodeResultsGUI(wx.Frame):
         self.rows.Add(headingSizer, 1, wx.ALIGN_CENTER)
         self.Bind(wx.EVT_BUTTON, self.ReturnHome, ReturnButton)
 
-        tableData = self.dateRangeOffenceCode(searchDateBefore, searchDateAfter)
-        self.tableList = tableData.values.tolist()
-        tableRows = len(self.tableList)
+        try:
+            tableData = self.dateRangeOffenceCode(searchDateBefore, searchDateAfter)
+            self.tableList = tableData.values.tolist()
+            tableRows = len(self.tableList)
 
-        text = wx.StaticText(self.pnl, label="Results: ")
-        self.rows.Add(text, 1, wx.ALIGN_CENTER)
+            text = wx.StaticText(self.pnl, label="Results: ")
+            self.rows.Add(text, 1, wx.ALIGN_CENTER)
 
-        tableDataDict = tableData.to_dict()
-        dataKeys = list(tableDataDict.keys())
-        dataValues = list(tableDataDict.values())
-        dataKeysString = []
-        for keys in dataKeys:
-            keyString = str(keys)
-            dataKeysString.append(keyString)
+            tableDataDict = tableData.to_dict()
+            dataKeys = list(tableDataDict.keys())
+            dataValues = list(tableDataDict.values())
+            dataKeysString = []
+            for keys in dataKeys:
+                keyString = str(keys)
+                dataKeysString.append(keyString)
 
-        fig = plt.figure(figsize=(15, 5))
-        plt.bar(dataKeysString, dataValues, color="maroon", width=0.35)
+            fig = plt.figure(figsize=(15, 5))
+            plt.bar(dataKeysString, dataValues, color="maroon", width=0.35)
 
-        plt.xlabel("Offence Code")
-        plt.ylabel("No. of Offence Code occurrences")
-        plt.title("Distribution of offence codes")
-        plt.show()
-
-
+            plt.xlabel("Offence Code")
+            plt.ylabel("No. of Offence Code occurrences")
+            plt.title("Distribution of offence codes")
+            plt.show()
+        except IndexError:
+            wx.MessageBox("No Results")
 
         self.pnl.SetSizerAndFit(self.rows)
         self.Show(True)
