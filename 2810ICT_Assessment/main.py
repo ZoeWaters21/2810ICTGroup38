@@ -477,7 +477,6 @@ class MobilePhoneGUI(wx.Frame):
         dataKeys = self.analysisYears
         dataValues = self.analysisList1
 
-        fig = plt.figure(figsize=(10, 5))
         plt.plot(dataKeys,dataValues)
 
         plt.xlabel("Year")
@@ -490,7 +489,6 @@ class MobilePhoneGUI(wx.Frame):
         dataKeys = self.analysisYears
         dataValues = self.analysisList2
 
-        fig = plt.figure(figsize=(10, 5))
         plt.plot(dataKeys,dataValues)
 
         plt.xlabel("Year")
@@ -502,7 +500,7 @@ class MobilePhoneGUI(wx.Frame):
         dataKeys = self.analysisYears
         dataValues = self.analysisList3
 
-        fig = plt.figure(figsize=(10, 5))
+
         plt.plot(dataKeys,dataValues)
 
         plt.xlabel("Year")
@@ -848,7 +846,7 @@ class OffenceCodeResultsGUI(wx.Frame):
         dataKeys = list(tableDataDict.keys())
         dataValues = list(tableDataDict.values())
 
-        fig = plt.figure(figsize=(10, 5))
+
         plt.bar(dataKeys, dataValues, color="maroon", width=300)
 
         plt.xlabel("Offence Code")
